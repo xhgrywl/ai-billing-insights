@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>账智 AI 账单洞察助手</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <section id="login-screen" class="login-screen" aria-label="演示账号登录">
+      <div class="login-card">
+        <div class="login-brand"><span class="brand-mark">✦</span><span>账智 AI</span></div>
+        <p class="eyebrow">演示系统 · 2026</p>
+        <h1>让每一笔账单都有迹可循</h1>
+        <p class="login-copy">请选择演示身份进入系统。此版本仅使用本地演示数据，不连接真实支付或银行账户。</p>
+        <div class="login-options">
+          <button class="login-option" data-login-role="user"><span class="login-icon">◉</span><span><b>普通用户登录</b><small>吴嘉森 · 查看个人账单、预算和 AI 洞察</small></span><i>→</i></button>
+          <button class="login-option" data-login-role="admin"><span class="login-icon admin">◆</span><span><b>管理员登录</b><small>管理员 · 查看平台数据和异常账单监控</small></span><i>→</i></button>
+        </div>
+      </div>
+    </section>
+
+    <div class="app-shell is-hidden" id="app-shell">
+      <aside class="sidebar">
+        <div class="brand"><span class="brand-mark">✦</span><span>账智 AI</span></div>
+        <nav>
+          <button class="nav-item active" data-panel="dashboard">概览</button>
+          <button class="nav-item" data-panel="bills">账单管理</button>
+          <button class="nav-item" data-panel="insights">AI 洞察</button>
+          <button class="nav-item admin-only" data-panel="admin">管理中心</button>
+        </nav>
+        <div class="sidebar-footer">
+          <p>当前身份</p>
+          <div class="role-switch" role="group" aria-label="切换身份">
+            <button class="role-btn selected" data-role="user">普通用户</button>
+            <button class="role-btn" data-role="admin">管理员</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">2026 年 11 月</p>
+            <h1 id="page-title">财务概览</h1>
+          </div>
+          <div class="profile"><span class="avatar" id="profile-avatar">吴</span><span id="profile-name">吴嘉森</span><button class="text-button" id="logout-btn">退出登录</button></div>
+        </header>
+
+        <section id="dashboard" class="panel visible">
+          <div class="metrics">
+            <article class="metric-card"><p>本月支出</p><strong id="total-spend">¥2,856</strong><span class="delta up">较上月 +8.4%</span></article>
+            <article class="metric-card"><p>月度预算</p><strong>¥4,000</strong><span>已使用 <b id="budget-rate">71%</b></span></article>
+            <article class="metric-card"><p>可用结余</p><strong id="remaining">¥1,144</strong><span>距离月末还有 18 天</span></article>
+          </div>
+          <div class="content-grid">
+            <article class="card wide-card">
+              <div class="section-heading"><div><p class="eyebrow">支出趋势</p><h2>近七日消费</h2></div><span class="tag">实时更新</span></div>
+              <div class="chart" id="trend-chart" aria-label="近七日消费柱状图"></div>
+              <div class="chart-labels"><span>周四</span><span>周五</span><span>周六</span><span>周日</span><span>周一</span><span>周二</span><span>今天</span></div>
+            </article>
+            <article class="card category-card">
+              <div class="section-heading"><div><p class="eyebrow">分类结构</p><h2>消费分类</h2></div></div>
+              <div class="donut-wrap"><div class="donut"><span id="donut-total">¥2,856</span><small>总支出</small></div></div>
+              <ul class="legend" id="category-legend"></ul>
+            </article>
+          </div>
+          <article class="ai-banner">
+            <div class="ai-icon">✦</div>
+            <div><p class="eyebrow">AI 财务助手</p><h2>把账单变成可执行的消费建议</h2><p>系统会结合预算、类别和近期消费变化生成解释清晰的个性化建议。</p></div>
+            <button class="primary-button" id="open-insights">生成 AI 消费洞察</button>
+          </article>
+        </section>
+
+        <section id="bills" class="panel">
+          <div class="panel-toolbar"><div><p class="eyebrow">账单记录</p><h2>我的账单</h2></div><button class="primary-button" id="open-add-bill">+ 新增账单</button></div>
+          <div class="card table-card"><table><thead><tr><th>日期</th><th>类别</th><th>说明</th><th>金额</th></tr></thead><tbody id="bill-table"></tbody></table></div>
+        </section>
+
+        <section id="insights" class="panel">
+          <div class="panel-toolbar"><div><p class="eyebrow">可解释分析</p><h2>AI 消费洞察</h2></div><button class="primary-button" id="refresh-insights">重新生成</button></div>
+          <div id="insight-cards" class="insight-grid"></div>
+          <article class="card action-plan"><p class="eyebrow">本周行动建议</p><h2>用 3 个小调整控制预算</h2><ol><li>将餐饮预算拆分为工作日和周末两部分。</li><li>为高频订阅设置续费提醒。</li><li>下一笔非必要消费前，先查看本月结余。</li></ol></article>
+        </section>
+
+        <section id="admin" class="panel">
+          <div class="panel-toolbar"><div><p class="eyebrow">管理员工作台</p><h2>平台运行概览</h2></div><span class="tag success">系统运行正常</span></div>
+          <div class="metrics admin-metrics"><article class="metric-card"><p>注册用户</p><strong>128</strong><span>本周新增 16 人</span></article><article class="metric-card"><p>已分析账单</p><strong>2,436</strong><span>今日新增 214 条</span></article><article class="metric-card"><p>建议采纳率</p><strong>76%</strong><span>较上周 +5%</span></article></div>
+          <div class="content-grid"><article class="card wide-card"><div class="section-heading"><div><p class="eyebrow">用户活跃度</p><h2>近七日访问趋势</h2></div></div><div class="chart admin-chart" id="admin-chart"></div></article><article class="card"><p class="eyebrow">最近反馈</p><h2>用户反馈</h2><ul class="feedback"><li><b>李同学</b><span>分类建议很直观</span></li><li><b>陈同学</b><span>希望支持导出月报</span></li><li><b>王同学</b><span>预算提醒很及时</span></li></ul></article></div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="bill-dialog">
+      <form method="dialog" id="bill-form">
+        <div class="dialog-header"><div><p class="eyebrow">新增记录</p><h2>添加一笔账单</h2></div><button class="close-button" value="cancel" aria-label="关闭">×</button></div>
+        <label>金额<input id="bill-amount" required type="number" min="1" placeholder="例如 38" /></label>
+        <label>类别<select id="bill-category"><option>餐饮</option><option>交通</option><option>购物</option><option>订阅</option><option>学习</option></select></label>
+        <label>说明<input id="bill-note" required placeholder="例如 午餐" /></label>
+        <button class="primary-button" id="save-bill" value="default">保存账单</button>
+      </form>
+    </dialog>
+    <script src="app.js"></script>
+  </body>
+</html>
